@@ -1,3 +1,8 @@
 scripts:
   notebook: jupyter notebook
   install: pip install -r requirements.txt
+  docker_up: docker compose up -d
+  docker_down: docker compose down
+  migrate:
+    - cd src
+    - ../venv/bin/python manage.py migrate
