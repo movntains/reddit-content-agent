@@ -4,6 +4,12 @@ scripts:
   docker_up: docker compose up -d
   docker_down: docker compose down
   docker_status: docker compose ps
+  make_migrations:
+    - cd src
+    - ../venv/bin/python manage.py makemigrations
   migrate:
     - cd src
     - ../venv/bin/python manage.py migrate
+  worker:
+    - cd src
+    - ../venv/bin/celery -A project worker --beat -l info
