@@ -3,6 +3,7 @@ scripts:
   install: pip install -r requirements.txt
   docker_up: docker compose up -d
   docker_down: docker compose down
+  docker_status: docker compose ps
   migrate:
     - cd src
     - ../venv/bin/python manage.py migrate
