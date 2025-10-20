@@ -29,10 +29,14 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get('DJANGO_DEBUG_MODE')) == '1'
 
+CSRF_TRUSTED_ORIGIN = os.environ.get('CSRF_TRUSTED_ORIGIN')
+
 ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = []
 
 if DEBUG:
     ALLOWED_HOSTS.append('*')
+    CSRF_TRUSTED_ORIGINS.append(CSRF_TRUSTED_ORIGIN)
 
 # Application definition
 
@@ -50,6 +54,9 @@ INSTALLED_APPS = [
     'django_qstash',
     'django_qstash.results',
     'django_qstash.schedules',
+
+    # Internal apps
+    'reddit',
 ]
 
 MIDDLEWARE = [
