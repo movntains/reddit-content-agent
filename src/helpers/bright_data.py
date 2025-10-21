@@ -4,6 +4,8 @@ import requests
 from django.apps import apps
 from django.conf import settings
 
+from . import defaults
+
 BRIGHT_DATA_DATASET_ID = 'gd_lvz8ah06191smkebj4'
 
 
@@ -14,11 +16,9 @@ def get_crawl_headers():
     }
 
 
-def perform_scrape_snapshot(subreddit_url: str, num_of_posts: int = 20) -> str:
-    BrightDataSnapshot = apps.get_model('snapshots', 'BrightDataSnapshot')
+def perform_scrape_snapshot(subreddit_url: str, num_of_posts: int = 20, raw: bool = False) -> dict | bool:
     url = 'https://api.brightdata.com/datasets/v3/trigger'
     headers = get_crawl_headers()
-    dataset_id = 'gd_lvz8ah06191smkebj4'
     params = {
         'dataset_id': BRIGHT_DATA_DATASET_ID,
         'notify': 'false',
@@ -27,6 +27,8 @@ def perform_scrape_snapshot(subreddit_url: str, num_of_posts: int = 20) -> str:
         'discover_by': 'subreddit_url',
         'limit_per_input': '100',
     }
+    fields = defaults.BRIGHT_DATA_REDDIT_FIELDS
+    ignore_fields = ['comments', 'related_posts']
     data = json.dumps({
         'input': [
             {
@@ -36,6 +38,7 @@ def perform_scrape_snapshot(subreddit_url: str, num_of_posts: int = 20) -> str:
                 'num_of_posts': num_of_posts,
             },
         ],
+        'custom_output_fields': [x for x in fields if not x in ignore_fields],
     })
 
     response = requests.post(
@@ -47,21 +50,15 @@ def perform_scrape_snapshot(subreddit_url: str, num_of_posts: int = 20) -> str:
 
     response.raise_for_status()
 
-    data = response.json()
-    snapshot_id = data.get('snapshot_id')
+    response_data = response.json()
 
-    BrightDataSnapshot.objects.create(
-        snapshot_id=snapshot_id,
-        dataset_id=dataset_id,
-        status='Unknown',
-        url=subreddit_url,
-    )
+    if raw:
+        return response_data
 
-    return data.get('snapshot_id')
+    return response_data.get('snapshot_id')
 
 
-def get_snapshot_progress(snapshot_id: str) -> bool | None:
-    BrightDataSnapshot = apps.get_model('snapshots', 'BrightDataSnapshot')
+def get_snapshot_progress(snapshot_id: str, raw: bool = False) -> dict | bool | None:
     url = f"https://api.brightdata.com/datasets/v3/progress/{snapshot_id}"
     headers = get_crawl_headers()
 
@@ -71,19 +68,11 @@ def get_snapshot_progress(snapshot_id: str) -> bool | None:
         response.raise_for_status()
 
         data = response.json()
-        snapshot_id = data.get('snapshot_id')
-        dataset_id = data.get('dataset_id')
-        status = data.get('status')
-        records = data.get('records') or 0
 
-        BrightDataSnapshot.objects.update_or_create(
-            snapshot_id=snapshot_id,
-            dataset_id=dataset_id,
-            defaults={
-                'status': status,
-                'records': records,
-            },
-        )
+        if raw:
+            return data
+
+        status = data.get('status')
 
         return status == 'ready'
 
