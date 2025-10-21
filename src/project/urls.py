@@ -17,7 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from snapshots.views import reddit_post_webhook_handler, snapshot_webhook_handler
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('qstash/webhook/', include('django_qstash.urls')),
+    path('webhooks/bright_data/scrape/', snapshot_webhook_handler),
+    path('webhooks/bright_data/reddit/', reddit_post_webhook_handler),
 ]

@@ -1,6 +1,7 @@
-import helpers.bright_data
 from django.apps import apps
 from django_qstash import stashed_task
+
+import helpers.bright_data
 
 MAX_PROGRESS_ITERATION_COUNT = 10
 
@@ -16,6 +17,7 @@ def perform_reddit_scrape_task(
         subreddit_url=subreddit_url,
         num_of_posts=num_of_posts,
         raw=True,
+        use_webhook=True,
     )
     snapshot_id = data.get('snapshot_id')
 

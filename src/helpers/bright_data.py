@@ -16,7 +16,12 @@ def get_crawl_headers():
     }
 
 
-def perform_scrape_snapshot(subreddit_url: str, num_of_posts: int = 20, raw: bool = False) -> dict | bool:
+def perform_scrape_snapshot(
+    subreddit_url: str,
+    num_of_posts: int = 20,
+    raw: bool = False,
+    use_webhook: bool = True,
+) -> dict | bool:
     url = 'https://api.brightdata.com/datasets/v3/trigger'
     headers = get_crawl_headers()
     params = {
@@ -27,6 +32,19 @@ def perform_scrape_snapshot(subreddit_url: str, num_of_posts: int = 20, raw: boo
         'discover_by': 'subreddit_url',
         'limit_per_input': '100',
     }
+
+    if use_webhook:
+        webhook_params = {
+            'auth_header': f"Basic {settings.BRIGHT_DATA_WEBHOOK_HANDLER_SECRET_KEY}",
+            'endpoint': f"{settings.CLOUDFLARE_TUNNEL_URL}/webhooks/bright_data/reddit/",
+            'notify': f"{settings.CLOUDFLARE_TUNNEL_URL}/webhooks/bright_data/scrape/",
+            'format': 'json',
+            'uncompressed_webhook': 'true',
+            'force_deliver': 'false',
+        }
+
+        params.update(webhook_params)
+
     fields = defaults.BRIGHT_DATA_REDDIT_FIELDS
     ignore_fields = ['comments', 'related_posts']
     data = json.dumps({
