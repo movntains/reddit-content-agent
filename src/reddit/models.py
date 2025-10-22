@@ -12,7 +12,7 @@ class RedditPost(models.Model):
     num_upvotes = models.IntegerField(null=True, blank=True)
     num_comments = models.IntegerField(null=True, blank=True)
     date_posted = models.DateTimeField(
-        auto_now=True,
+        auto_now=False,
         auto_now_add=False,
         null=True,
         blank=True,
@@ -42,6 +42,12 @@ class RedditCommunity(models.Model):
         null=True, blank=True, help_text="Current member count, if available"
     )
     active = models.BooleanField(default=True, help_text="Is this searchable?")
+    last_scrape_event = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True,
+        blank=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

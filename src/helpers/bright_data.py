@@ -6,6 +6,13 @@ from django.conf import settings
 from . import defaults
 
 BRIGHT_DATA_DATASET_ID = "gd_lvz8ah06191smkebj4"
+BRIGHT_DATA_SCRAPE_SORT_OPTIONS = [
+    "Today",
+    "This Week",
+    "This Month",
+    "This Year",
+    "All Time",
+]
 
 
 def get_crawl_headers():
@@ -47,7 +54,7 @@ def perform_scrape_snapshot(
 
     fields = defaults.BRIGHT_DATA_REDDIT_FIELDS
     ignore_fields = []
-    sort_options = ["Today", "This Week", "This Month", "All Time"]
+    sort_options = BRIGHT_DATA_SCRAPE_SORT_OPTIONS
 
     if sort_by_time not in sort_options:
         sort_by_time = "This Month"
