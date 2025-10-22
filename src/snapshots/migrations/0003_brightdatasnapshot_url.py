@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('snapshots', '0002_brightdatasnapshot_error_message'),
+        ("snapshots", "0002_brightdatasnapshot_error_message"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='brightdatasnapshot',
-            name='url',
+            model_name="brightdatasnapshot",
+            name="url",
             field=models.URLField(blank=True, null=True),
         ),
     ]

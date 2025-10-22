@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('snapshots', '0004_brightdatasnapshot_created_at_and_more'),
+        ("snapshots", "0004_brightdatasnapshot_created_at_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='brightdatasnapshot',
-            name='progress_check_count',
+            model_name="brightdatasnapshot",
+            name="progress_check_count",
             field=models.IntegerField(default=0),
         ),
     ]

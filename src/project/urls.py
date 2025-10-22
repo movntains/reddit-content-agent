@@ -14,14 +14,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import include, path
 
 from snapshots.views import reddit_post_webhook_handler, snapshot_webhook_handler
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('qstash/webhook/', include('django_qstash.urls')),
-    path('webhooks/bright_data/scrape/', snapshot_webhook_handler),
-    path('webhooks/bright_data/reddit/', reddit_post_webhook_handler),
+    path("admin/", admin.site.urls),
+    path("qstash/webhook/", include("django_qstash.urls")),
+    path("webhooks/bright_data/scrape/", snapshot_webhook_handler),
+    path("webhooks/bright_data/reddit/", reddit_post_webhook_handler),
 ]

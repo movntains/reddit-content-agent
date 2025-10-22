@@ -7,17 +7,24 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='BrightDataSnapshot',
+            name="BrightDataSnapshot",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('snapshot_id', models.CharField(max_length=120)),
-                ('dataset_id', models.CharField(max_length=120)),
-                ('status', models.CharField(max_length=120)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("snapshot_id", models.CharField(max_length=120)),
+                ("dataset_id", models.CharField(max_length=120)),
+                ("status", models.CharField(max_length=120)),
             ],
         ),
     ]

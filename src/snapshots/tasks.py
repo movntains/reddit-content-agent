@@ -12,14 +12,14 @@ def perform_reddit_scrape_task(
     num_of_posts: int = 20,
     progress_countdown: int = 300,
 ) -> str:
-    BrightDataSnapshot = apps.get_model('snapshots', 'BrightDataSnapshot')
+    BrightDataSnapshot = apps.get_model("snapshots", "BrightDataSnapshot")
     data = helpers.bright_data.perform_scrape_snapshot(
         subreddit_url=subreddit_url,
         num_of_posts=num_of_posts,
         raw=True,
         use_webhook=True,
     )
-    snapshot_id = data.get('snapshot_id')
+    snapshot_id = data.get("snapshot_id")
 
     instance = BrightDataSnapshot.objects.create(
         snapshot_id=snapshot_id,
@@ -38,7 +38,7 @@ def perform_reddit_scrape_task(
 
 @stashed_task
 def get_snapshot_instance_progress_task(instance_id: str) -> bool:
-    BrightDataSnapshot = apps.get_model('snapshots', 'BrightDataSnapshot')
+    BrightDataSnapshot = apps.get_model("snapshots", "BrightDataSnapshot")
     instance = BrightDataSnapshot.objects.get(id=instance_id)
     progress_check_count = instance.progress_check_count
     new_progress_check_count = progress_check_count + 1
@@ -48,8 +48,8 @@ def get_snapshot_instance_progress_task(instance_id: str) -> bool:
         raw=True,
     )
 
-    status = data.get('status')
-    records = data.get('records') or 0
+    status = data.get("status")
+    records = data.get("records") or 0
 
     instance.records = records
     instance.status = status
@@ -60,13 +60,18 @@ def get_snapshot_instance_progress_task(instance_id: str) -> bool:
 
     progress_complete = instance.progress_complete
 
-    if not progress_complete and new_progress_check_count < MAX_PROGRESS_ITERATION_COUNT:
+    if (
+        not progress_complete
+        and new_progress_check_count < MAX_PROGRESS_ITERATION_COUNT
+    ):
         print("Recheck the snapshot's status")
 
         delay_delta = 30 * new_progress_check_count
 
-        get_snapshot_instance_progress_task.apply_async(args=(instance_id,), countdown=delay_delta)
+        get_snapshot_instance_progress_task.apply_async(
+            args=(instance_id,), countdown=delay_delta
+        )
 
         return False
 
-    return status == 'ready'
+    return status == "ready"

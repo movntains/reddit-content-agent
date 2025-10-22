@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
 import os
 from pathlib import Path
 
@@ -24,88 +25,86 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get('DJANGO_DEBUG_MODE')) == '1'
+DEBUG = str(os.environ.get("DJANGO_DEBUG_MODE")) == "1"
 
-CSRF_TRUSTED_ORIGIN = os.environ.get('CSRF_TRUSTED_ORIGIN')
+CSRF_TRUSTED_ORIGIN = os.environ.get("CSRF_TRUSTED_ORIGIN")
 
 ALLOWED_HOSTS = []
 CSRF_TRUSTED_ORIGINS = []
 
 if DEBUG:
-    ALLOWED_HOSTS.append('*')
+    ALLOWED_HOSTS.append("*")
     CSRF_TRUSTED_ORIGINS.append(CSRF_TRUSTED_ORIGIN)
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
     # Third-party apps
-    'django_celery_beat',
-    'django_celery_results',
-    'django_qstash',
-    'django_qstash.results',
-    'django_qstash.schedules',
-
+    "django_celery_beat",
+    "django_celery_results",
+    "django_qstash",
+    "django_qstash.results",
+    "django_qstash.schedules",
     # Internal apps
-    'reddit',
-    'snapshots',
+    "reddit",
+    "snapshots",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = "project.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = "project.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     },
 }
 
-DATABASE_URL = os.environ.get('DATABASE_URL') or ''
+DATABASE_URL = os.environ.get("DATABASE_URL") or ""
 
-if DATABASE_URL and DATABASE_URL != '':
+if DATABASE_URL and DATABASE_URL != "":
     import dj_database_url
 
     DATABASES = {
-        'default': dj_database_url.config(
+        "default": dj_database_url.config(
             default=DATABASE_URL,
             conn_max_age=300,
             conn_health_checks=True,
@@ -114,15 +113,15 @@ if DATABASE_URL and DATABASE_URL != '':
 
 # Redis
 
-REDIS_URL = os.environ.get('REDIS_URL') or ''
+REDIS_URL = os.environ.get("REDIS_URL") or ""
 
-if REDIS_URL and REDIS_URL != '':
+if REDIS_URL and REDIS_URL != "":
     CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': f"{REDIS_URL}",
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": f"{REDIS_URL}",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
             },
         },
     }
@@ -132,25 +131,25 @@ if REDIS_URL and REDIS_URL != '':
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = "America/New_York"
 
 USE_I18N = True
 
@@ -159,35 +158,37 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Celery
 
 # Save Celery task results in Django's database
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = "django-db"
 
 # Configure Redis as the datastore between Django and Celery
 CELERY_BROKER_URL = REDIS_URL
 
 # Allow for scheduling items in the Django admin
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"
 
 # Django QStash
 
-QSTASH_URL = os.environ.get('QSTASH_URL')
-QSTASH_TOKEN = os.environ.get('QSTASH_TOKEN')
-QSTASH_CURRENT_SIGNING_KEY = os.environ.get('QSTASH_CURRENT_SIGNING_KEY')
-QSTASH_NEXT_SIGNING_KEY = os.environ.get('QSTASH_NEXT_SIGNING_KEY')
-DJANGO_QSTASH_DOMAIN = os.environ.get('DJANGO_QSTASH_DOMAIN')
-DJANGO_QSTASH_WEBHOOK_PATH = os.environ.get('DJANGO_QSTASH_WEBHOOK_PATH')
+QSTASH_URL = os.environ.get("QSTASH_URL")
+QSTASH_TOKEN = os.environ.get("QSTASH_TOKEN")
+QSTASH_CURRENT_SIGNING_KEY = os.environ.get("QSTASH_CURRENT_SIGNING_KEY")
+QSTASH_NEXT_SIGNING_KEY = os.environ.get("QSTASH_NEXT_SIGNING_KEY")
+DJANGO_QSTASH_DOMAIN = os.environ.get("DJANGO_QSTASH_DOMAIN")
+DJANGO_QSTASH_WEBHOOK_PATH = os.environ.get("DJANGO_QSTASH_WEBHOOK_PATH")
 
 # Bright Data
 
-BRIGHT_DATA_API_KEY = os.environ.get('BRIGHT_DATA_API_KEY')
-BRIGHT_DATA_WEBHOOK_HANDLER_SECRET_KEY = os.environ.get('BRIGHT_DATA_WEBHOOK_HANDLER_SECRET_KEY')
-CLOUDFLARE_TUNNEL_URL = os.environ.get('CLOUDFLARE_TUNNEL_URL')
+BRIGHT_DATA_API_KEY = os.environ.get("BRIGHT_DATA_API_KEY")
+BRIGHT_DATA_WEBHOOK_HANDLER_SECRET_KEY = os.environ.get(
+    "BRIGHT_DATA_WEBHOOK_HANDLER_SECRET_KEY"
+)
+CLOUDFLARE_TUNNEL_URL = os.environ.get("CLOUDFLARE_TUNNEL_URL")

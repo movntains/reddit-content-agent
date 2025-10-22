@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('reddit', '0002_redditpost_description'),
+        ("reddit", "0002_redditpost_description"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='redditpost',
-            name='comments',
+            model_name="redditpost",
+            name="comments",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

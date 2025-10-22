@@ -12,25 +12,25 @@ from .tasks import get_snapshot_instance_progress_task
 
 @csrf_exempt
 def snapshot_webhook_handler(request):
-    if request.method != 'POST':
+    if request.method != "POST":
         # Intentionally not indicating that a POST request is required for security reasons
-        return HttpResponse('OK')
+        return HttpResponse("OK")
 
-    auth = request.headers.get('Authorization')
+    auth = request.headers.get("Authorization")
 
-    if auth.startswith('Basic '):
-        token = auth.split(' ')[1]
+    if auth.startswith("Basic "):
+        token = auth.split(" ")[1]
 
         if token == f"{settings.BRIGHT_DATA_WEBHOOK_HANDLER_SECRET_KEY}":
             data = {}
 
             try:
-                data = json.loads(request.body.decode('utf-8'))
+                data = json.loads(request.body.decode("utf-8"))
 
             except json.decoder.JSONDecodeError as e:
                 print(f"Error: {e.msg}")
 
-            snapshot_id = data.get('snapshot_id')
+            snapshot_id = data.get("snapshot_id")
 
             if snapshot_id:
                 query_set = BrightDataSnapshot.objects.filter(
@@ -46,34 +46,34 @@ def snapshot_webhook_handler(request):
 
                     get_snapshot_instance_progress_task(instance.id)
                 else:
-                    instance_ids = query_set.values_list('id', flat=True)
+                    instance_ids = query_set.values_list("id", flat=True)
 
                     for instance_id in instance_ids:
                         get_snapshot_instance_progress_task(instance_id)
 
-    return HttpResponse('OK')
+    return HttpResponse("OK")
 
 
 @csrf_exempt
 def reddit_post_webhook_handler(request):
-    if request.method != 'POST':
+    if request.method != "POST":
         # Intentionally not indicating that a POST request is required for security reasons
-        return HttpResponse('OK')
+        return HttpResponse("OK")
 
-    auth = request.headers.get('Authorization')
+    auth = request.headers.get("Authorization")
 
-    if auth.startswith('Basic '):
-        token = auth.split(' ')[1]
+    if auth.startswith("Basic "):
+        token = auth.split(" ")[1]
 
         if token == f"{settings.BRIGHT_DATA_WEBHOOK_HANDLER_SECRET_KEY}":
             data = []
 
             try:
-                data = json.loads(request.body.decode('utf-8'))
+                data = json.loads(request.body.decode("utf-8"))
 
             except json.decoder.JSONDecodeError as e:
                 print(f"Error: {e.msg}")
 
             reddit_db_services.handle_reddit_thread_results(reddit_results=data)
 
-    return HttpResponse('OK')
+    return HttpResponse("OK")

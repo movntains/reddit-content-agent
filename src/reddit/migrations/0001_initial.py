@@ -7,18 +7,25 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='RedditPost',
+            name="RedditPost",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('post_id', models.CharField(db_index=True, max_length=120)),
-                ('url', models.URLField(db_index=True)),
-                ('title', models.CharField(blank=True, max_length=250, null=True)),
-                ('date_posted', models.DateTimeField(auto_now=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("post_id", models.CharField(db_index=True, max_length=120)),
+                ("url", models.URLField(db_index=True)),
+                ("title", models.CharField(blank=True, max_length=250, null=True)),
+                ("date_posted", models.DateTimeField(auto_now=True, null=True)),
             ],
         ),
     ]

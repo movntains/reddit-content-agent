@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('snapshots', '0006_brightdatasnapshot_finished_at'),
+        ("snapshots", "0006_brightdatasnapshot_finished_at"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='brightdatasnapshot',
-            name='_status',
-            field=models.CharField(default='unknown', max_length=120),
+            model_name="brightdatasnapshot",
+            name="_status",
+            field=models.CharField(default="unknown", max_length=120),
         ),
         migrations.AddField(
-            model_name='brightdatasnapshot',
-            name='last_status_changed_at',
+            model_name="brightdatasnapshot",
+            name="last_status_changed_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='brightdatasnapshot',
-            name='status',
-            field=models.CharField(default='unknown', max_length=120),
+            model_name="brightdatasnapshot",
+            name="status",
+            field=models.CharField(default="unknown", max_length=120),
         ),
     ]
