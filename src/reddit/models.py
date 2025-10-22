@@ -44,3 +44,6 @@ class RedditCommunity(models.Model):
     active = models.BooleanField(default=True, help_text="Is this searchable?")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "reddit communities"

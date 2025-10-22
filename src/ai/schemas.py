@@ -14,3 +14,12 @@ class RedditCommunitiesSchema(BaseModel):
     communities: list[RedditCommunitySchema] = Field(
         description="The list of Reddit communities"
     )
+
+
+class TopicSchema(BaseModel):
+    name: str = Field(description="A topic name")
+    slug: str = Field(description="A slugified and URL-safe version of the topic name")
+
+
+class TopicListSchema(BaseModel):
+    topics: list[TopicSchema] = Field(description="A list of topics")
