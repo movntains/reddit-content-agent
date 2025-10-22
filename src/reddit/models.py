@@ -7,6 +7,10 @@ class RedditPost(models.Model):
     title = models.CharField(max_length=250, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     comments = models.JSONField(null=True, blank=True)
+    related_posts = models.JSONField(null=True, blank=True)
+    community_name = models.CharField(max_length=250, null=True, blank=True)
+    num_upvotes = models.IntegerField(null=True, blank=True)
+    num_comments = models.IntegerField(null=True, blank=True)
     date_posted = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,

@@ -11,6 +11,7 @@ def perform_reddit_scrape_task(
     subreddit_url: str,
     num_of_posts: int = 20,
     progress_countdown: int = 300,
+    sort_by_time: str = "This Week",
 ) -> str:
     BrightDataSnapshot = apps.get_model("snapshots", "BrightDataSnapshot")
     data = helpers.bright_data.perform_scrape_snapshot(
@@ -18,6 +19,7 @@ def perform_reddit_scrape_task(
         num_of_posts=num_of_posts,
         raw=True,
         use_webhook=True,
+        sort_by_time=sort_by_time,
     )
     snapshot_id = data.get("snapshot_id")
 

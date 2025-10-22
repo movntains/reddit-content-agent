@@ -21,6 +21,7 @@ def perform_scrape_snapshot(
     num_of_posts: int = 20,
     raw: bool = False,
     use_webhook: bool = True,
+    sort_by_time: str = "This Week",
 ) -> dict | bool:
     url = "https://api.brightdata.com/datasets/v3/trigger"
     headers = get_crawl_headers()
@@ -46,14 +47,19 @@ def perform_scrape_snapshot(
         params.update(webhook_params)
 
     fields = defaults.BRIGHT_DATA_REDDIT_FIELDS
-    ignore_fields = ["comments", "related_posts"]
+    ignore_fields = []
+    sort_options = ["Today", "This Week", "This Month", "All Time"]
+
+    if sort_by_time not in sort_options:
+        sort_by_time = "This Month"
+
     data = json.dumps(
         {
             "input": [
                 {
                     "url": f"{subreddit_url}",
                     "sort_by": "Top",
-                    "sort_by_time": "Today",
+                    "sort_by_time": f"{sort_by_time}",
                     "num_of_posts": num_of_posts,
                 },
             ],

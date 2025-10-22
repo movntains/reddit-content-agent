@@ -2,4 +2,10 @@ from django.contrib import admin
 
 from .models import RedditPost
 
-admin.site.register(RedditPost)
+
+class RedditPostAdmin(admin.ModelAdmin):
+    list_display = ["title", "community_name"]
+    list_filter = ["community_name"]
+
+
+admin.site.register(RedditPost, RedditPostAdmin)
